@@ -23,10 +23,10 @@ export default {
 				header: "var(--header-height)",
 			},
 			minWidth: {
-				"main-content": "300px",
+				"main": "300px",
 			},
 			maxWidth: {
-				"main-content": "1200px",
+				"main": "1200px",
 			},
 			margin: {
 				header: "var(--header-height)",
