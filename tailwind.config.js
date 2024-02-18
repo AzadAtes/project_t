@@ -15,24 +15,42 @@ export default {
 				"blueish-dark-900": "#111013",
 			},
 			height: {
-				"content-wrapper": "calc(100% - var(--header-height))",
-				header: "var(--header-height)",
+				"app-content": "calc(100% - var(--app-header-height))",
+				"app-header": "var(--app-header-height)",
 			},
 			minHeight: {
-				"content-wrapper": "calc(100% - var(--header-height))",
-				header: "var(--header-height)",
+				"app-content": "calc(100% - var(--app-header-height))",
+				"app-header": "var(--app-header-height)",
+			},
+			maxHeight: {
+				"app-content": "calc(100% - var(--app-header-height))",
+				"app-header": "var(--app-header-height)",
+			},
+			width: {
+				sidebar: "var(--sidebar-width)",
 			},
 			minWidth: {
-				"main": "300px",
+				sidebar: "var(--sidebar-width)",
 			},
 			maxWidth: {
-				"main": "1200px",
+				sidebar: "var(--sidebar-width)",
 			},
 			margin: {
-				header: "var(--header-height)",
+				"app-header": "var(--app-header-height)",
 			},
 			spacing: {
-				header: "var(--header-height)",
+				"app-header": "var(--app-header-height)",
+			},
+			flex: {
+				"0-0-sidebar": "0 0 var(--sidebar-width)",
+				"1-0-sidebar": "1 0 var(--sidebar-width)",
+				"0-1-sidebar": "0 1 var(--sidebar-width)",
+				"1-1-sidebar": "1 1 var(--sidebar-width)",
+				"0-0-main": "0 0 var(--main-width)",
+				"1-0-main": "1 0 var(--main-width)",
+				"0-1-main": "0 1 var(--main-width)",
+				"1-1-main": "1 1 var(--main-width)",
+				2: "2 1 0",
 			},
 		},
 	},
