@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PropType, ref } from "vue";
+import { computed, PropType, ref } from "vue";
 import TaskList from "./TaskList.vue";
 
 const props = defineProps({
@@ -9,21 +9,27 @@ const props = defineProps({
 	},
 });
 
-const showSubTasks = ref(false);
+const subTasksAreVisible = ref(false);
+const subTasksAreExistent = computed(() => {
+	return props.task.subTasks !== undefined;
+});
+const toggleSubtasks = () => {
+	subTasksAreVisible.value = !subTasksAreVisible.value;
+};
 </script>
 
 <template>
-	<li>
+	<li class="rounded bg-blueish-dark-700">
 		<h1
-			class="mt-1 rounded border-b-4 border-blueish-dark-100 p-3"
-			:class="props.task.subTasks !== undefined ? 'text-xl font-bold' : ''"
-			@click="showSubTasks = !showSubTasks"
+			class="relative z-10 mb-2 rounded bg-neutral-800 p-2"
+			:class="subTasksAreExistent && subTasksAreVisible ? '' : ''"
+			@click="toggleSubtasks"
 		>
 			{{ props.task.name }}
 		</h1>
 		<TaskList
-			v-show="showSubTasks"
-			v-if="props.task.subTasks !== undefined"
+			v-show="subTasksAreVisible"
+			v-if="subTasksAreExistent"
 			:tasks="props.task.subTasks"
 		/>
 	</li>

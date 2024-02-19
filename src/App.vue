@@ -29,7 +29,7 @@ const darkThemeIsActive = ref(true);
 				class="flex min-h-full w-full before:flex-1"
 				:class="sideBarIsShown ? 'after:flex-2' : 'after:flex-1'"
 			>
-				<main class="flex-1-0-main p-3">
+				<main class="flex-1-1-main p-3">
 					<RouterView />
 				</main>
 			</div>

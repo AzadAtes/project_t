@@ -11,28 +11,12 @@ const props = defineProps({
 </script>
 
 <template>
-	<ul class="list-none">
-		<Task
-			data-name="task-list"
-			class="ml-12 mt-2"
-			v-for="task in props.tasks"
-			:key="task.id"
-			:task="task"
-		/>
+	<ul
+		data-name="task-list"
+		class="relative ml-12 list-none before:absolute before:-left-12 before:z-0 before:h-full before:rounded before:border-l-2 before:border-dotted before:border-blueish-dark-100"
+	>
+		<Task v-for="task in props.tasks" :key="task.id" :task="task" />
 	</ul>
 </template>
 
-<style scoped>
-ul {
-	position: relative;
-}
-ul::before {
-	position: absolute;
-	top: 10px;
-	left: 0px;
-	content: " ";
-	border-left: 2px dotted #212023;
-	border-bottom-left-radius: 4px;
-	height: calc(100% - 20px);
-}
-</style>
+<style scoped></style>
