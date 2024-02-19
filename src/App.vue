@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import Sidebar from "./components/Sidebar.vue";
+import AppHeader from "./components/AppHeader.vue";
 
 const sideBarIsShown = ref(true);
 const darkThemeIsActive = ref(true);
@@ -8,18 +10,18 @@ const darkThemeIsActive = ref(true);
 <template>
 	<div
 		class="box-border h-full"
-		:class="darkThemeIsActive ? 'bg-black text-white' : 'bg-white text-black'"
+		:class="darkThemeIsActive ? 'bg-blueish-dark-900 text-white' : 'bg-white text-black'"
 	>
-		<div id="app-header-wrapper" class="h-app-header fixed z-50 w-full">
-			<!-- AppHeader -->
+		<div id="app-header-wrapper" class="fixed z-50 h-app-header w-full">
+			<AppHeader />
 		</div>
 		<div
 			id="app-content"
-			class="top-app-header min-h-app-content relative flex w-full bg-inherit"
+			class="relative top-app-header flex min-h-app-content w-full bg-inherit"
 		>
-			<div id="sidebar-placeholder" v-show="sideBarIsShown" class="flex-0-0-sidebar h-full">
-				<div id="sidebar-wrapper" class="w-sidebar fixed z-50 h-full">
-					<!-- Sidebar -->
+			<div id="sidebar-placeholder" v-show="sideBarIsShown" class="h-full flex-0-0-sidebar">
+				<div id="sidebar-wrapper" class="fixed z-50 h-full w-sidebar">
+					<Sidebar />
 				</div>
 			</div>
 			<div
@@ -27,7 +29,7 @@ const darkThemeIsActive = ref(true);
 				class="flex min-h-full w-full before:flex-1"
 				:class="sideBarIsShown ? 'after:flex-2' : 'after:flex-1'"
 			>
-				<main class="flex-1-0-main">
+				<main class="flex-1-0-main p-3">
 					<RouterView />
 				</main>
 			</div>
