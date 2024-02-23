@@ -1,19 +1,42 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref, provide, Ref } from "vue";
 import Sidebar from "./components/Sidebar.vue";
 import AppHeader from "./components/AppHeader.vue";
 
-const sideBarIsShown = ref(true);
+const sideBarIsShown = ref(false);
 const darkThemeIsActive = ref(true);
+
+const topPaddingWidth = ref(0);
+provide("top-padding-width", topPaddingWidth);
+
+onMounted(() => {
+	const leftPaddingElement = document.querySelector("#left-padding");
+	const rightPaddingElement = document.querySelector("#right-padding");
+
+	if (leftPaddingElement && rightPaddingElement) {
+		const observer = new ResizeObserver((entries) => {
+			document.getElementById("top-padding")!.style.minHeight =
+				entries[0].contentRect.width + "px";
+			topPaddingWidth.value = entries[0].contentRect.width;
+
+			if (entries[1].contentRect.width > 10) {
+				document.getElementById("bottom-padding")!.style.minHeight =
+					entries[1].contentRect.width - 10 + "px";
+			}
+		});
+		observer.observe(leftPaddingElement);
+		observer.observe(rightPaddingElement);
+	}
+});
 </script>
 
 <template>
 	<div
-		class="box-border h-full"
-		:class="darkThemeIsActive ? 'bg-blueish-dark-900 text-white' : 'bg-white text-black'"
+		class="h-full"
+		:class="darkThemeIsActive ? 'bg-neutral-910 text-white' : 'bg-white text-black'"
 	>
 		<div id="app-header-wrapper" class="fixed z-50 h-app-header w-full">
-			<AppHeader />
+			<AppHeader @click="sideBarIsShown = !sideBarIsShown" />
 		</div>
 		<div
 			id="app-content"
@@ -24,14 +47,17 @@ const darkThemeIsActive = ref(true);
 					<Sidebar />
 				</div>
 			</div>
-			<div
-				id="main-wrapper"
-				class="flex min-h-full w-full before:flex-1"
-				:class="sideBarIsShown ? 'after:flex-2' : 'after:flex-1'"
-			>
-				<main class="flex-1-1-main p-3">
-					<RouterView />
-				</main>
+			<div class="flex h-full w-full flex-col">
+				<div id="top-padding"></div>
+				<div id="main-wrapper" class="flex min-h-full w-full">
+					<div id="left-padding" class="flex-1"></div>
+
+					<main id="main" ref="target" class="flex-1-1-main">
+						<RouterView />
+					</main>
+					<div id="right-padding" :class="sideBarIsShown ? 'flex-2' : 'flex-1'"></div>
+				</div>
+				<div id="bottom-padding"></div>
 			</div>
 		</div>
 	</div>

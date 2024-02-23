@@ -4,6 +4,8 @@ export default {
 	theme: {
 		extend: {
 			colors: {
+				"neutral-910": "#151515",
+				/*
 				"blueish-dark-100": "#212023",
 				"blueish-dark-200": "#1F1E21",
 				"blueish-dark-300": "#1D1C1F",
@@ -13,6 +15,7 @@ export default {
 				"blueish-dark-700": "#151417",
 				"blueish-dark-800": "#131215",
 				"blueish-dark-900": "#111013",
+				 */
 			},
 			height: {
 				"app-content": "calc(100% - var(--app-header-height))",
@@ -50,6 +53,9 @@ export default {
 				"1-0-main": "1 0 var(--main-width)",
 				"0-1-main": "0 1 var(--main-width)",
 				"1-1-main": "1 1 var(--main-width)",
+				"2-0-main": "1 0 var(--main-width)",
+				"2-1-main": "1 1 var(--main-width)",
+				"2-2-main": "1 1 var(--main-width)",
 				2: "2 1 0",
 			},
 		},

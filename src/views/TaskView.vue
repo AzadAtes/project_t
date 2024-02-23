@@ -1,12 +1,24 @@
 <script setup lang="ts">
 import { useTaskStore } from "../stores/taskStore.ts";
 import Task from "../components/tasks/Task.vue";
+import { ref } from "vue";
 const taskStore = useTaskStore();
+
+let count = 0;
+const countUp = () => {
+	count++;
+};
 </script>
 
 <template>
-	<div class="mt-16 flex w-full list-none flex-col gap-2 font-mono">
-		<Task class="p-2 pb-0" v-for="task in taskStore.tasks" :task="task" />
+	<div class="flex w-full list-none flex-col gap-1 font-mono">
+		<Task
+			class="rounded bg-neutral-900 p-1"
+			v-for="task in taskStore.tasks"
+			:task="task"
+			:count="count"
+			@count-up="countUp"
+		/>
 	</div>
 </template>
 
