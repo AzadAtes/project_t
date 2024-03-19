@@ -1,10 +1,25 @@
 <script setup lang="ts">
-import { onMounted, ref, provide, Ref } from "vue";
+import { onMounted, ref, provide, computed } from "vue";
 import Sidebar from "./components/Sidebar.vue";
 import AppHeader from "./components/AppHeader.vue";
 
-const sideBarIsShown = ref(false);
+const windowWidthThreshold = 1440;
+
+const sideBarDefaultVisibility = ref(window.innerWidth >= windowWidthThreshold);
+const sideBarIsToggled = ref(false);
 const darkThemeIsActive = ref(true);
+const sideWidth = ref(0);
+
+const sideBarIsShown = computed(() => {
+	return sideBarDefaultVisibility.value || sideBarIsToggled.value;
+});
+
+const toggleSideBar = () => {
+	if (sideWidth.value < windowWidthThreshold) {
+		sideBarIsToggled.value = !sideBarIsToggled.value;
+		console.log("toggling");
+	}
+};
 
 const topPaddingWidth = ref(0);
 provide("top-padding-width", topPaddingWidth);
@@ -28,6 +43,17 @@ onMounted(() => {
 		observer.observe(rightPaddingElement);
 	}
 });
+
+const adjustLayout = () => {
+	sideWidth.value = window.innerWidth;
+	if (window.innerWidth >= windowWidthThreshold) {
+		sideBarDefaultVisibility.value = true;
+	} else {
+		sideBarDefaultVisibility.value = false;
+	}
+};
+
+window.addEventListener("resize", adjustLayout);
 </script>
 
 <template>
@@ -36,7 +62,7 @@ onMounted(() => {
 		:class="darkThemeIsActive ? 'bg-neutral-910 text-white' : 'bg-white text-black'"
 	>
 		<div id="app-header-wrapper" class="fixed z-50 h-app-header w-full">
-			<AppHeader @click="sideBarIsShown = !sideBarIsShown" />
+			<AppHeader @click="toggleSideBar" />
 		</div>
 		<div
 			id="app-content"

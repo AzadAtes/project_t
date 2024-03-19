@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Task from "./Task.vue";
-import { PropType, inject, Ref, onMounted, watchEffect, defineEmits } from "vue";
+import { PropType, inject, Ref, onMounted, watchEffect } from "vue";
 
 const props = defineProps({
 	tasks: {
@@ -16,7 +16,7 @@ const emit = defineEmits(["countUp"]);
 const countUp = () => {
 	emit("countUp");
 };
-console.log(props.count);
+console.log(props.tasks?.subTasks);
 
 const topPaddingWidth = inject<Ref<number>>("top-padding-width");
 
@@ -26,22 +26,23 @@ onMounted(() => {
 	watchEffect(() => {
 		if (topPaddingWidth && ulElement) {
 			switch (true) {
-				case topPaddingWidth.value > 45:
+				case topPaddingWidth.value > 35:
 					ulElement.forEach((ulElement) => {
 						// Apply styles to each component
-						ulElement.style.marginLeft = "45px";
+						ulElement.style.paddingLeft = "35px";
 					});
 					break;
 				case topPaddingWidth.value < 15:
 					ulElement.forEach((ulElement) => {
 						// Apply styles to each component
-						ulElement.style.marginLeft = "15px";
+						ulElement.style.paddingLeft = "15px";
 					});
 					break;
 				default:
 					ulElement.forEach((ulElement) => {
 						// Apply styles to each component
-						ulElement.style.marginLeft = topPaddingWidth.value + "px";
+						//ulElement.style.marginLeft = topPaddingWidth.value + "px";
+						ulElement.style.paddingLeft = topPaddingWidth.value + "px";
 					});
 			}
 		}
@@ -50,9 +51,10 @@ onMounted(() => {
 </script>
 
 <template>
-	<ul data-name="task-list" class="relative ml-9 list-none">
+	<!-- TODO: lastIterationOfList ? 'py-2 ': 'mt-0'; and maybe a lighter background? OR: highlight only current/last list/item in focus mode and none in overview -->
+	<ul data-name="task-list" class="relative mt-2 list-none gap-2 border-l-2 border-neutral-700">
 		<Task
-			class="mt-2"
+			class=""
 			v-for="task in props.tasks"
 			:key="task.id"
 			:task="task"
