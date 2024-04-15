@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, provide, Ref } from "vue";
+import { onMounted, ref, provide } from "vue";
 import Sidebar from "./components/Sidebar.vue";
 import AppHeader from "./components/AppHeader.vue";
 
@@ -15,8 +15,12 @@ onMounted(() => {
 
 	if (leftPaddingElement && rightPaddingElement) {
 		const observer = new ResizeObserver((entries) => {
-			document.getElementById("top-padding")!.style.minHeight =
-				entries[0].contentRect.width + "px";
+			if (entries[0].contentRect.width < 45) {
+				document.getElementById("top-padding")!.style.minHeight =
+					entries[0].contentRect.width + "px";
+			} else {
+				document.getElementById("top-padding")!.style.minHeight = "45px";
+			}
 			topPaddingWidth.value = entries[0].contentRect.width;
 
 			if (entries[1].contentRect.width > 10) {
@@ -50,12 +54,12 @@ onMounted(() => {
 			<div class="flex h-full w-full flex-col">
 				<div id="top-padding"></div>
 				<div id="main-wrapper" class="flex min-h-full w-full">
-					<div id="left-padding" class="flex-1"></div>
+					<div id="left-padding" :class="sideBarIsShown ? 'flex-1' : 'flex-1'"></div>
 
 					<main id="main" ref="target" class="flex-1-1-main">
 						<RouterView />
 					</main>
-					<div id="right-padding" :class="sideBarIsShown ? 'flex-2' : 'flex-1'"></div>
+					<div id="right-padding" class="flex-1"></div>
 				</div>
 				<div id="bottom-padding"></div>
 			</div>

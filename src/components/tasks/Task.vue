@@ -16,30 +16,43 @@ const props = defineProps({
 const emit = defineEmits(["countUp"]);
 emit("countUp");
 console.log(props.count);
-const subTasksAreVisible = ref(false);
+const detailsAreVisible = ref(false);
 const subTasksAreExistent = computed(() => {
 	return props.task.subTasks !== undefined;
 });
+const descriptionIsExistent = computed(() => {
+	return props.task.description !== undefined;
+});
 const toggleSubtasks = () => {
-	subTasksAreVisible.value = !subTasksAreVisible.value;
+	detailsAreVisible.value = !detailsAreVisible.value;
 };
 </script>
 
 <template>
-	<li>
+	<li data-name="task" class="rounded">
 		<h1
-			class="relative z-10 rounded bg-neutral-800 p-2"
-			:class="subTasksAreExistent && subTasksAreVisible ? '' : ''"
+			class="relative z-10 rounded bg-neutral-800 p-2 text-blue-200"
+			:class="[
+				descriptionIsExistent && detailsAreVisible ? 'rounded-b-none' : '',
+				descriptionIsExistent || subTasksAreExistent ? 'font-light' : 'font-light',
+			]"
 			@click="toggleSubtasks"
 		>
 			{{ props.task.name }}
 		</h1>
-		<TaskList
-			v-show="subTasksAreVisible"
-			v-if="subTasksAreExistent"
-			:tasks="props.task.subTasks"
-			:count="props.count"
-		/>
+		<div data-name="details" v-show="detailsAreVisible">
+			<p
+				v-if="descriptionIsExistent"
+				class="rounded-b bg-neutral-800 p-2 pt-1 text-xs font-light"
+			>
+				{{ props.task.description }}
+			</p>
+			<TaskList
+				v-if="subTasksAreExistent"
+				:tasks="props.task.subTasks"
+				:count="props.count"
+			/>
+		</div>
 	</li>
 </template>
 

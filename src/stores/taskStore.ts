@@ -6,20 +6,21 @@ export const useTaskStore = defineStore("tasks", () => {
 		{
 			id: "1",
 			name: "Push-Workout",
-			description: "",
+			description: "This is a very long and precise description of the task at hand.",
 			dueDateAndTime: "Today 15:45",
 			subTasks: [
 				{
 					id: "110",
 					name: "Pushups",
+					description: "This is a very long and precise description of the task at hand.",
 					subTasks: [
 						{
 							id: "111",
-							name: "Set 1. 10x",
+							name: "Set 1",
 						},
 						{
 							id: "112",
-							name: "Set 1. 10x",
+							name: "Set 2",
 							subTasks: [
 								{
 									id: "1111",
@@ -61,11 +62,11 @@ export const useTaskStore = defineStore("tasks", () => {
 						},
 						{
 							id: "113",
-							name: "Set 1. 10x",
+							name: "Set 3",
 						},
 						{
 							id: "114",
-							name: "Set 1. 10x",
+							name: "Set 4",
 						},
 					],
 				},

@@ -11,15 +11,20 @@ const countUp = () => {
 </script>
 
 <template>
-	<div class="flex w-full list-none flex-col gap-1 font-mono">
+	<ul class="flex w-full list-none flex-col gap-2 pl-0 font-mono">
 		<Task
-			class="rounded bg-neutral-900 p-1"
+			data-name="initial-task"
+			class="rounded p-0"
 			v-for="task in taskStore.tasks"
 			:task="task"
 			:count="count"
 			@count-up="countUp"
 		/>
-	</div>
+	</ul>
 </template>
 
-<style scoped></style>
+<style>
+/*[data-name="initial-task"] > [data-name="details"] > [data-name="task-list"] {
+	border: none;
+}*/
+</style>

@@ -4,7 +4,7 @@ import { PropType, inject, Ref, onMounted, watchEffect, defineEmits } from "vue"
 
 const props = defineProps({
 	tasks: {
-		type: Object as PropType<Task>,
+		type: Array as PropType<Task[]>,
 		required: false,
 	},
 	count: {
@@ -12,6 +12,7 @@ const props = defineProps({
 		required: true,
 	},
 });
+
 const emit = defineEmits(["countUp"]);
 const countUp = () => {
 	emit("countUp");
@@ -21,27 +22,24 @@ console.log(props.count);
 const topPaddingWidth = inject<Ref<number>>("top-padding-width");
 
 onMounted(() => {
-	const ulElement = document.querySelectorAll("ul");
+	const subTaskListElements = document.querySelectorAll('[data-name="sub-task-list"]');
 
 	watchEffect(() => {
-		if (topPaddingWidth && ulElement) {
+		if (topPaddingWidth && subTaskListElements) {
 			switch (true) {
 				case topPaddingWidth.value > 45:
-					ulElement.forEach((ulElement) => {
-						// Apply styles to each component
-						ulElement.style.marginLeft = "45px";
+					subTaskListElements.forEach((element) => {
+						element.style.paddingLeft = "45px";
 					});
 					break;
 				case topPaddingWidth.value < 15:
-					ulElement.forEach((ulElement) => {
-						// Apply styles to each component
-						ulElement.style.marginLeft = "15px";
+					subTaskListElements.forEach((element) => {
+						element.style.paddingLeft = "15px";
 					});
 					break;
 				default:
-					ulElement.forEach((ulElement) => {
-						// Apply styles to each component
-						ulElement.style.marginLeft = topPaddingWidth.value + "px";
+					subTaskListElements.forEach((element) => {
+						element.style.paddingLeft = topPaddingWidth.value + "px";
 					});
 			}
 		}
@@ -50,9 +48,9 @@ onMounted(() => {
 </script>
 
 <template>
-	<ul data-name="task-list" class="relative ml-9 list-none">
+	<ul data-name="sub-task-list" class="relative list-none border-l-2 border-neutral-800 pl-9">
 		<Task
-			class="mt-2"
+			class="mt-1"
 			v-for="task in props.tasks"
 			:key="task.id"
 			:task="task"
