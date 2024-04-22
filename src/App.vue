@@ -4,64 +4,42 @@ import Sidebar from "./components/Sidebar.vue";
 import AppHeader from "./components/AppHeader.vue";
 
 const sideBarIsShown = ref(false);
-const darkThemeIsActive = ref(true);
 
-const topPaddingWidth = ref(0);
-provide("top-padding-width", topPaddingWidth);
+const leftPaddingWidth = ref(0);
+provide("main-left-padding-width", leftPaddingWidth);
 
 onMounted(() => {
-	const leftPaddingElement = document.querySelector("#left-padding");
-	const rightPaddingElement = document.querySelector("#right-padding");
+	const mainLeftPadding = document.querySelector("#main-left-padding");
+	const mainWrapper = document.getElementById("main-wrapper");
 
-	if (leftPaddingElement && rightPaddingElement) {
-		const observer = new ResizeObserver((entries) => {
-			if (entries[0].contentRect.width < 45) {
-				document.getElementById("top-padding")!.style.minHeight =
-					entries[0].contentRect.width + "px";
-			} else {
-				document.getElementById("top-padding")!.style.minHeight = "45px";
-			}
-			topPaddingWidth.value = entries[0].contentRect.width;
-
-			if (entries[1].contentRect.width > 10) {
-				document.getElementById("bottom-padding")!.style.minHeight =
-					entries[1].contentRect.width - 10 + "px";
+	if (mainLeftPadding) {
+		const resizeObserver = new ResizeObserver((entries) => {
+			leftPaddingWidth.value = entries[0].contentRect.width;
+			if (mainWrapper) {
+				mainWrapper.style.paddingTop = entries[0].contentRect.width + "px";
+				mainWrapper.style.paddingBottom = entries[0].contentRect.width + "px";
 			}
 		});
-		observer.observe(leftPaddingElement);
-		observer.observe(rightPaddingElement);
+		resizeObserver.observe(mainLeftPadding);
 	}
 });
 </script>
 
 <template>
-	<div
-		class="h-full"
-		:class="darkThemeIsActive ? 'bg-neutral-910 text-white' : 'bg-white text-black'"
-	>
-		<div id="app-header-wrapper" class="fixed z-50 h-app-header w-full">
-			<AppHeader @click="sideBarIsShown = !sideBarIsShown" />
+	<div id="app-inner" class="h-full bg-neutral-900 text-white">
+		<div id="app-header-wrapper" @click="sideBarIsShown = !sideBarIsShown" class="fixed z-50 h-app-header w-full">
+			<AppHeader />
 		</div>
-		<div
-			id="app-content"
-			class="relative top-app-header flex min-h-app-content w-full bg-inherit"
-		>
-			<div id="sidebar-placeholder" v-show="sideBarIsShown" class="h-full flex-0-0-sidebar">
-				<div id="sidebar-wrapper" class="fixed z-50 h-full w-sidebar">
-					<Sidebar />
-				</div>
+		<div id="app-content" class="relative top-app-header flex min-h-app-content bg-inherit">
+			<div id="sidebar-wrapper" v-show="sideBarIsShown" class="min-h-full flex-0-0-sidebar">
+				<Sidebar />
 			</div>
-			<div class="flex h-full w-full flex-col">
-				<div id="top-padding"></div>
-				<div id="main-wrapper" class="flex min-h-full w-full">
-					<div id="left-padding" :class="sideBarIsShown ? 'flex-1' : 'flex-1'"></div>
-
-					<main id="main" ref="target" class="flex-1-1-main">
-						<RouterView />
-					</main>
-					<div id="right-padding" class="flex-1"></div>
-				</div>
-				<div id="bottom-padding"></div>
+			<div id="main-wrapper" class="flex min-h-full flex-1">
+				<div id="main-left-padding" class="flex-0-1-main-padding"></div>
+				<main id="main" class="flex-1-1.25-main h-full">
+					<RouterView />
+				</main>
+				<div id="main-right-padding" class="flex-0-1-main-padding"></div>
 			</div>
 		</div>
 	</div>

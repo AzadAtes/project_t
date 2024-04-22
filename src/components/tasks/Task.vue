@@ -1,58 +1,45 @@
 <script setup lang="ts">
-import { computed, PropType, ref, defineEmits } from "vue";
-import TaskList from "./TaskList.vue";
+import { computed, PropType, ref } from "vue";
+import SubTaskList from "./SubTaskList.vue";
+import Repetitions from "./Repetitions.vue";
 
 const props = defineProps({
 	task: {
 		type: Object as PropType<Task>,
 		required: true,
 	},
-	count: {
-		type: Number,
-		required: true,
-	},
 });
 
-const emit = defineEmits(["countUp"]);
-emit("countUp");
-console.log(props.count);
 const detailsAreVisible = ref(false);
-const subTasksAreExistent = computed(() => {
+
+const hasSubTasks = computed(() => {
 	return props.task.subTasks !== undefined;
 });
-const descriptionIsExistent = computed(() => {
+const hasDescription = computed(() => {
 	return props.task.description !== undefined;
 });
-const toggleSubtasks = () => {
+const hasRepetitions = computed(() => {
+	return props.task.reps !== undefined;
+});
+
+const toggleDetails = () => {
 	detailsAreVisible.value = !detailsAreVisible.value;
 };
 </script>
 
 <template>
-	<li data-name="task" class="rounded">
-		<h1
-			class="relative z-10 rounded bg-neutral-800 p-2 text-blue-200"
-			:class="[
-				descriptionIsExistent && detailsAreVisible ? 'rounded-b-none' : '',
-				descriptionIsExistent || subTasksAreExistent ? 'font-light' : 'font-light',
-			]"
-			@click="toggleSubtasks"
-		>
-			{{ props.task.name }}
-		</h1>
-		<div data-name="details" v-show="detailsAreVisible">
-			<p
-				v-if="descriptionIsExistent"
-				class="rounded-b bg-neutral-800 p-2 pt-1 text-xs font-light"
-			>
+	<li data-name="task">
+		<div class="rounded bg-neutral-800">
+			<h1 class="p-2 text-orange-300" @click="toggleDetails">
+				{{ props.task.name }}
+			</h1>
+
+			<p class="px-2 pb-2 text-xs font-light" v-if="hasDescription" v-show="detailsAreVisible">
 				{{ props.task.description }}
 			</p>
-			<TaskList
-				v-if="subTasksAreExistent"
-				:tasks="props.task.subTasks"
-				:count="props.count"
-			/>
+			<Repetitions :reps="props.task.reps!" v-if="hasRepetitions" v-show="detailsAreVisible" />
 		</div>
+		<SubTaskList :tasks="props.task.subTasks" v-if="hasSubTasks" v-show="detailsAreVisible" />
 	</li>
 </template>
 

@@ -4,6 +4,7 @@
 
 :root {
 	--app-header-height: 56px;
-	--sidebar-width: 400px;
-	--main-width: 97%;
+	--sidebar-width: 320px;
+	--main-width: 960px;
+	--main-padding: 24px;
 }

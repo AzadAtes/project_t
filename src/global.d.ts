@@ -4,6 +4,7 @@ declare type Task = {
 	description?: String;
 	dueDateAndTime?: String;
 
+	reps?: Rep[];
 	subTasks?: Task[];
 
 	complete?: boolean;
@@ -12,4 +13,10 @@ declare type Task = {
 	important?: Boolean;
 	myDay?: Boolean;
 	planned?: Boolean;
+};
+
+declare type Rep = {
+	id: string;
+	name: string;
+	count: number;
 };
