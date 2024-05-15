@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Task from "./Task.vue";
-import { PropType, inject, Ref, onMounted, watchEffect } from "vue";
+import { PropType, inject, Ref, computed } from "vue";
 
 const props = defineProps({
 	tasks: {
@@ -8,21 +8,9 @@ const props = defineProps({
 		required: false,
 	},
 });
+const mainLeftPaddingWidth = inject<Ref<number>>("main-left-padding-width")
+const leftPadding = computed(() => { return mainLeftPaddingWidth?.value + "px"})
 
-const mainLeftPaddingWidth = inject<Ref<number>>("main-left-padding-width");
-
-onMounted(() => {
-	const subTaskListElements = document.querySelectorAll('[data-name="sub-task-list"]');
-
-	watchEffect(() => {
-		if (mainLeftPaddingWidth && mainLeftPaddingWidth.value !== 0 && subTaskListElements) {
-			//TODO: can this be optimized?
-			subTaskListElements.forEach((element) => {
-				element.style.paddingLeft = mainLeftPaddingWidth.value + "px"; // TODO: is there a proper fix for "Vue: Property style does not exist on type Element"?
-			});
-		}
-	});
-});
 </script>
 
 <template>
@@ -31,4 +19,8 @@ onMounted(() => {
 	</ul>
 </template>
 
-<style scoped></style>
+<style scoped>
+[data-name="sub-task-list"]{
+	padding-left: v-bind('leftPadding');
+}
+</style>
