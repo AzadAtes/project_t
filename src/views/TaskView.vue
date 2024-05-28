@@ -1,18 +1,11 @@
 <script setup lang="ts">
 import { useTaskStore } from "../stores/taskStore.ts";
-import Task from "../components/tasks/Task.vue";
+import TaskList from "../components/tasks/TaskList.vue";
 const taskStore = useTaskStore();
 </script>
 
 <template>
-	<ul data-name="initial-task-list" class="flex list-none flex-col gap-2 font-mono">
-		<Task
-			data-name="initial-task"
-			class="rounded"
-			v-for="task in taskStore.tasks"
-			:task="task"
-		/>
-	</ul>
+	<TaskList :tasks="taskStore.tasks" class="!gap-1 !border-none !pl-0" />
 </template>
 
 <style></style>

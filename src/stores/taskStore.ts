@@ -13,23 +13,6 @@ export const useTaskStore = defineStore("tasks", () => {
 					id: "110",
 					name: "Pushups",
 					subTasks: [],
-					reps: [
-						{
-							id: "9991",
-							name: "Set 1",
-							count: 15,
-						},
-						{
-							id: "9992",
-							name: "Set 2",
-							count: 15,
-						},
-						{
-							id: "9993",
-							name: "Set 3",
-							count: 15,
-						},
-					],
 				},
 				{
 					id: "120",
@@ -39,24 +22,6 @@ export const useTaskStore = defineStore("tasks", () => {
 						{
 							id: "111",
 							name: "Set 1",
-
-							reps: [
-								{
-									id: "9991",
-									name: "Set 1",
-									count: 15,
-								},
-								{
-									id: "9992",
-									name: "Set 2",
-									count: 15,
-								},
-								{
-									id: "9993",
-									name: "Set 3",
-									count: 15,
-								},
-							],
 						},
 						{
 							id: "112",
@@ -81,23 +46,6 @@ export const useTaskStore = defineStore("tasks", () => {
 												{
 													id: "1112",
 													name: "Set 1. 10x",
-													reps: [
-														{
-															id: "9991",
-															name: "Set 1",
-															count: 15,
-														},
-														{
-															id: "9992",
-															name: "Set 2",
-															count: 15,
-														},
-														{
-															id: "9993",
-															name: "Set 3",
-															count: 15,
-														},
-													],
 												},
 											],
 										},
